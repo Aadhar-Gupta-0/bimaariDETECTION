@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+# Never publish real patient or medical records
+Patient_Records.csv
+Disease_Records.csv
+Consult_Doctor.csv
+data/
+*.sqlite
+*.db
