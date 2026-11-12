@@ -1,5 +1,5 @@
 import unittest
-from guidance import SYMPTOMS, evaluate_symptoms
+from guidance import SYMPTOMS, evaluate_symptoms, questions_for_clinician
 
 
 class GuidanceTests(unittest.TestCase):
@@ -25,6 +25,16 @@ class GuidanceTests(unittest.TestCase):
     def test_all_options_have_guidance(self):
         for symptom in SYMPTOMS:
             self.assertTrue(evaluate_symptoms([symptom])["guidance"])
+
+    def test_clinician_questions_are_general_and_opt_in(self):
+        self.assertEqual(questions_for_clinician([]), [])
+        questions = questions_for_clinician(["Headache"])
+        self.assertGreaterEqual(len(questions), 3)
+        self.assertTrue(all("diagnosis:" not in q.lower() for q in questions))
+
+    def test_unknown_question_selection_rejected(self):
+        with self.assertRaises(ValueError):
+            questions_for_clinician(["not a supported symptom"])
 
 
 if __name__ == "__main__":
