@@ -1,7 +1,7 @@
 """Simple Tkinter symptom education demo. No diagnostic claims or personal data storage."""
 import tkinter as tk
 from tkinter import ttk, messagebox
-from guidance import SYMPTOMS, evaluate_symptoms
+from guidance import SYMPTOMS, evaluate_symptoms, questions_for_clinician
 
 
 class DetectionApp:
@@ -69,6 +69,9 @@ class DetectionApp:
             "This app cannot identify the cause of symptoms.",
             "Consult a qualified healthcare professional for proper evaluation.",
         ])
+        if selected:
+            lines.extend(["", "Questions to ask a qualified clinician:"])
+            lines.extend("• " + question for question in questions_for_clinician(selected))
         self.set_output("\n".join(lines))
         if result["level"] == "emergency":
             messagebox.showwarning("Urgent medical attention", result["headline"])
