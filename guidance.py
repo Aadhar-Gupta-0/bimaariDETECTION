@@ -56,3 +56,18 @@ def evaluate_symptoms(symptoms: Iterable[str]) -> dict:
         "headline": "These symptoms cannot determine a diagnosis.",
         "guidance": [GENERAL_ADVICE[name] for name in SYMPTOMS if name in selected],
     }
+
+
+def questions_for_clinician(symptoms: Iterable[str]) -> list[str]:
+    """General appointment-preparation questions, not medical instructions."""
+    selected = set(symptoms)
+    if selected - set(SYMPTOMS):
+        raise ValueError("Unknown symptom selection")
+    if not selected:
+        return []
+    return [
+        "When did these symptoms begin, and have they changed?",
+        "What should I tell you about symptom frequency, triggers, and severity?",
+        "Are any existing medicines or health conditions relevant?",
+        "What warning signs should prompt urgent medical attention?",
+    ]
